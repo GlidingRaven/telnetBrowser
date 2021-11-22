@@ -1,9 +1,9 @@
-import sys, socket, re, time
 from PyQt5.QtGui import QColor
-import Record
+import sys, socket, re, time, Record
 
 HOST = '127.0.0.1'
 PORT = 23
+LOGFILENAME = 'log.txt'
 
 group_to_display = [0]
 
@@ -33,13 +33,13 @@ class TelnetServer():
 
                 if result:
                     print(result.to_text())
+
                     if result.group in group_to_display:
                         self.sig.emit(result.to_text(), QColor(0, 0, 255))  # display result
 
-                    # self.sig.emit(
-                    #     '{} - thread 2 variant 1.\n'.format(str(time.strftime("%Y-%m-%d-%H.%M.%S", time.localtime()))),
-                    #     QColor(0, 0, 255)
-                    # )
+                    with open(LOGFILENAME, 'a') as history_file:
+                        history_file.write(result.to_text() + '\n')
+
                     cummulation = ''
 
                 if not data:

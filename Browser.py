@@ -19,9 +19,6 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -31,8 +28,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Example"))
-        self.pushButton.setText(_translate("Form", "Input"))
+        Form.setWindowTitle(_translate("Form", "Telnet Browser"))
 
 
 # Объект, который будет перенесён в другой поток для выполнения кода
@@ -52,7 +48,6 @@ class MyWindow(QtWidgets.QWidget):
         super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.ui.pushButton.clicked.connect(self.addAnotherTextAndColor)
 
         self.thread = QtCore.QThread()
         self.browserHandler = BrowserHandler()
@@ -65,8 +60,3 @@ class MyWindow(QtWidgets.QWidget):
     def addNewTextAndColor(self, string, color):
         self.ui.textBrowser.setTextColor(color)
         self.ui.textBrowser.append(string)
-
-    def addAnotherTextAndColor(self):
-        self.ui.textBrowser.setTextColor(QColor(0, 255, 0))
-        self.ui.textBrowser.append(
-            '{} - thread 2 variant 3.\n'.format(str(time.strftime("%Y-%m-%d-%H.%M.%S", time.localtime()))))
